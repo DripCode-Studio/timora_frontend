@@ -9,6 +9,7 @@ import Setting from "@/pages/Setting";
 import Events from "@/pages/events/Events";
 import NotFound from "@/pages/NotFound";
 import Calendar from "@/pages/Calendar";
+import AuthCallback from "@/pages/auth/AuthCallback";
 
 function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ function AppRoutes() {
           <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/auth-callback" element={<AuthCallback />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

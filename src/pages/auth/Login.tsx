@@ -24,20 +24,24 @@ function Login() {
           {/* Brand */}
           <Link
             to="/"
-            className="mb-10 inline-flex items-center gap-2 font-semibold"
+            className="mb-10 inline-flex items-center gap-2 font-semibold "
           >
             <Calendar className="h-5 w-5" />
             <span>Timora</span>
           </Link>
 
           {/* Mobile illustration placeholder */}
-          <div className="mb-8 grid aspect-[4/3] place-items-center  bg-muted text-sm text-muted-foreground md:hidden">
-            <img src="/cursor-calendar.png" alt="Calendar Illustration" />
+          <div className="mb-8 grid aspect-[5/3] w-48 mx-auto place-items-center bg-muted text-sm text-muted-foreground rounded-lg md:hidden">
+            <img
+              src="/cursor-calendar.png"
+              alt="Calendar Illustration"
+              className="max-w-[160px] w-full h-auto object-contain sm:max-w-[200px]"
+            />
           </div>
-          <h1 className="text-3xl font-semibold tracking-tight">
+          <h1 className="text-3xl font-semibold tracking-tight text-center md:text-left">
             Welcome to Timora
           </h1>
-          <p className="mt-2 text-muted-foreground">
+          <p className="mt-2 text-muted-foreground text-center md:text-left">
             Your smart calendar companion for seamless scheduling and
             productivity
           </p>

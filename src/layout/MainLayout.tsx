@@ -1,5 +1,5 @@
-import React from "react";
 import { Outlet } from "react-router-dom";
+import MobileMenuBar from "@/components/layout/MobileMenuBar";
 
 function MainLayout() {
   return (
@@ -10,9 +10,10 @@ function MainLayout() {
       <main className="flex-grow p-4">
         <Outlet />
       </main>
-      <footer className="bg-gray-200 text-center p-4">
+      <footer className="bg-gray-200 text-center p-4 hidden md:block">
         <p>&copy; 2024 My Application</p>
       </footer>
+      <MobileMenuBar />
     </div>
   );
 }

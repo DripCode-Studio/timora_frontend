@@ -1,10 +1,15 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  CalendarDays,
+  Calendar,
+  User,
+  Settings,
+} from "lucide-react";
 
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
-  SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
@@ -14,29 +19,24 @@ import {
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
-    icon: Home,
+    title: "Dashboard",
+    url: "/app",
+    icon: LayoutDashboard,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: Calendar,
-  },
-  {
-    title: "Search",
-    url: "#",
-    icon: Search,
+    title: "Events",
+    url: "/app/events",
+    icon: CalendarDays,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/app/settings",
     icon: Settings,
+  },
+  {
+    title: "Profile",
+    url: "/app/profile",
+    icon: User,
   },
 ];
 
@@ -45,21 +45,24 @@ export function AppSidebar() {
     <Sidebar className="hidden md:block">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarGroupLabel>
+            <a href="#home" className="flex items-center gap-2 font-semibold">
+              <Calendar className="h-6 w-6" />
+              <span className="text-xl">Timora</span>
+            </a>
+          </SidebarGroupLabel>
+          <SidebarMenu>
+            {items.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton asChild>
+                  <a href={item.url}>
+                    <item.icon />
+                    <span>{item.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

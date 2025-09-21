@@ -43,7 +43,7 @@ function Header() {
           href="/app"
           className="flex md:hidden items-center gap-2 font-semibold"
         >
-          <Calendar className="h-6 w-6" />
+          <Calendar className="h-6 w-6 text-[#4CD964]" />
           <span className="text-xl">Timora</span>
         </a>
         <DropdownMenu>

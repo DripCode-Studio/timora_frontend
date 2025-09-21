@@ -4,6 +4,7 @@ import {
   Calendar,
   User,
   Settings,
+  LogOut,
 } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 import {
@@ -45,8 +46,8 @@ export function AppSidebar() {
   const location = useLocation();
 
   return (
-    <Sidebar className="hidden md:flex h-screen w-64 bg-white border-r shadow-sm">
-      <SidebarContent className="flex flex-col flex-1 pt-5 pb-4">
+    <Sidebar className="hidden md:flex h-screen w-64 bg-white border-r shadow-sm flex-col">
+      <SidebarContent className="flex flex-col flex-1 pt-5">
         <SidebarGroup>
           <SidebarGroupLabel className="px-6">
             <Link to="/app" className="flex items-center gap-3 py-2">
@@ -93,6 +94,10 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
+      <button className="w-full flex items-center justify-center gap-4 py-4 bg-red-600 hover:bg-red-700 transition-colors hover:cursor-pointer">
+        <LogOut className="w-6 h-6 flex-shrink-0 text-white" />
+        <span className="text-[15px] text-white font-medium">Logout</span>
+      </button>
     </Sidebar>
   );
 }

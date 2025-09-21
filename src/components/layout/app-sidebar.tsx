@@ -46,18 +46,21 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>
-            <a href="#home" className="flex items-center gap-2 font-semibold">
+            <a href="/app" className="flex items-center gap-2 font-semibold">
               <Calendar className="h-6 w-6" />
               <span className="text-xl">Timora</span>
             </a>
           </SidebarGroupLabel>
-          <SidebarMenu>
+          <SidebarMenu className="mt-4">
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton
+                  asChild
+                  className="w-full hover:cursor-pointer"
+                >
                   <a href={item.url}>
-                    <item.icon />
-                    <span>{item.title}</span>
+                    <item.icon className="w-6 h-6" />
+                    <span className="text-lg">{item.title}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>

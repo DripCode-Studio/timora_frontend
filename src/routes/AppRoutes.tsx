@@ -7,6 +7,7 @@ import Dashboard from "@/pages/Dashboard";
 import Home from "@/pages/Home";
 import Setting from "@/pages/Setting";
 import Events from "@/pages/events/Events";
+import AddEvent from "@/pages/events/AddEvent";
 import NotFound from "@/pages/NotFound";
 import Calendar from "@/pages/Calendar";
 import AuthCallback from "@/pages/auth/AuthCallback";
@@ -21,6 +22,7 @@ function AppRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="calendar" element={<Calendar />} />
           <Route path="events" element={<Events />} />
+          <Route path="events/add" element={<AddEvent />} />
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Setting />} />
           <Route path="*" element={<NotFound />} />

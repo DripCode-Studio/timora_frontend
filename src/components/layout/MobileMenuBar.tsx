@@ -32,7 +32,7 @@ const MobileMenuBar = () => {
           ))}
           <div className="flex-none flex items-center justify-center mx-1">
             <Link
-              to="/add"
+              to="/app/events/add"
               className="flex items-center justify-center rounded-full bg-blue-600 border-4 border-white shadow-xl w-12 h-12 hover:bg-blue-700 transition-colors -mt-6"
               aria-label="Add"
               style={{ boxShadow: "0 4px 16px 0 rgba(0,0,0,0.15)" }}

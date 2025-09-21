@@ -1,12 +1,12 @@
 import {
   Calendar as CalendarIcon,
   Clock3,
-  Plus,
   AlertTriangle,
   Timer,
   FileText,
   MapPin,
   User,
+  SquarePlus,
 } from "lucide-react";
 import Calendar from "@/components/ui/Calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -120,9 +120,9 @@ function Dashboard() {
         <Link to="events/add" className="">
           <Button
             variant="default"
-            className="w-full md:w-fit hover:cursor-pointer bg-blue-600 my-2 hover:bg-blue-700 text-white flex items-center gap-2"
+            className="w-full md:w-fit hover:cursor-pointer bg-black my-2 hover:bg-gray-800 text-[#4CD964] font-bold text-xl flex items-center gap-2"
           >
-            <Plus className="h-5 w-5" />
+            <SquarePlus className="h-5 w-5 " strokeWidth="3" />
             Add Event
           </Button>
         </Link>

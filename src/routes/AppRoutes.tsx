@@ -6,6 +6,7 @@ import Home from "@/pages/Home";
 import Setting from "@/pages/Setting";
 import Events from "@/pages/events/Events";
 import AddEvent from "@/pages/events/AddEvent";
+import EditEvent from "@/pages/events/EditEvent";
 import EventView from "@/pages/events/EventView";
 import NotFound from "@/pages/NotFound";
 import AuthCallback from "@/pages/auth/AuthCallback";
@@ -20,6 +21,7 @@ function AppRoutes() {
           <Route index element={<Dashboard />} />
           <Route path="events" element={<Events />} />
           <Route path="events/eventview/:id" element={<EventView />} />
+          <Route path="events/edit/:eventId" element={<EditEvent />} />
           <Route path="events/add" element={<AddEvent />} />
           <Route path="profile" element={<Profile />} />
           <Route path="settings" element={<Setting />} />

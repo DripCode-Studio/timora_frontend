@@ -10,12 +10,19 @@ import {
   Share,
   Download,
   Bell,
-  Plus,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Link } from "react-router-dom";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 interface StudyPartner {
   id: string;
@@ -38,12 +45,18 @@ interface ChecklistItem {
 }
 
 function EventView() {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+
   const [checklist, setChecklist] = useState<ChecklistItem[]>([
     { id: "1", text: "Review Chapter 1-4 notes", completed: true },
     { id: "2", text: "Complete practice problems", completed: true },
     { id: "3", text: "Study algorithms complexity", completed: false },
     { id: "4", text: "Prepare calculator and materials", completed: false },
   ]);
+
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const studyPartners: StudyPartner[] = [
     {
@@ -76,6 +89,36 @@ function EventView() {
         item.id === id ? { ...item, completed: !item.completed } : item
       )
     );
+  };
+
+  const handleDeleteClick = () => {
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    setIsDeleting(true);
+
+    try {
+      // Here you would make the API call to delete the event
+      // Example: await deleteEvent(id);
+      console.log(`Deleting event with ID: ${id}`);
+
+      // Simulate API call delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Navigate back to events page after successful deletion
+      navigate("/app/events");
+    } catch (error) {
+      console.error("Failed to delete event:", error);
+      // Handle error (you could show a toast notification here)
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setIsDeleteModalOpen(false);
   };
 
   return (
@@ -122,14 +165,20 @@ function EventView() {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" size="sm">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => navigate(`/app/events/edit/${id}`)}
+            className="hover:cursor-pointer"
+          >
             <Edit className="h-4 w-4 mr-2" />
             Edit
           </Button>
           <Button
             variant="outline"
             size="sm"
-            className="text-red-600 hover:text-red-700"
+            className="text-red-600 hover:text-red-700 hover:cursor-pointer"
+            onClick={handleDeleteClick}
           >
             <Trash2 className="h-4 w-4 mr-2" />
             Delete
@@ -167,7 +216,7 @@ function EventView() {
                     type="checkbox"
                     checked={item.completed}
                     onChange={() => toggleChecklistItem(item.id)}
-                    className="h-4 w-4 text-[#4CD964] border-gray-300 rounded focus:ring-[#4CD964]"
+                    className="h-4 w-4 text-[#4CD964] border-gray-300 rounded focus:ring-[#4CD964] hover:cursor-pointer"
                   />
                   <span
                     className={`${
@@ -210,14 +259,6 @@ function EventView() {
             <CardHeader>
               <CardTitle className="text-lg flex items-center justify-between">
                 Study Partners
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="text-[#4CD964] border-[#4CD964] hover:bg-[#4CD964]/10"
-                >
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add study partner
-                </Button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -296,19 +337,31 @@ function EventView() {
               <CardTitle className="text-lg">Quick Actions</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Button variant="outline" className="w-full justify-start">
+              <Button
+                variant="outline"
+                className="w-full justify-start hover:cursor-pointer"
+              >
                 <Copy className="h-4 w-4 mr-2" />
                 Duplicate Event
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button
+                variant="outline"
+                className="w-full justify-start hover:cursor-pointer"
+              >
                 <Share className="h-4 w-4 mr-2" />
                 Share Event
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button
+                variant="outline"
+                className="w-full justify-start hover:cursor-pointer"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Export to Calendar
               </Button>
-              <Button variant="outline" className="w-full justify-start">
+              <Button
+                variant="outline"
+                className="w-full justify-start hover:cursor-pointer"
+              >
                 <Bell className="h-4 w-4 mr-2" />
                 Edit Reminders
               </Button>
@@ -316,6 +369,52 @@ function EventView() {
           </Card>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-red-600">
+              <Trash2 className="h-5 w-5" />
+              Delete Event
+            </DialogTitle>
+            <DialogDescription className="pt-2">
+              Are you sure you want to delete "Computer Science Midterm Exam"?
+              This action cannot be undone and will permanently remove the event
+              along with all its data including study partners, checklist items,
+              and related information.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2 pt-4">
+            <Button
+              variant="outline"
+              onClick={handleDeleteCancel}
+              disabled={isDeleting}
+              className="hover:cursor-pointer"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteConfirm}
+              disabled={isDeleting}
+              className="bg-red-600 hover:bg-red-700 hover:cursor-pointer"
+            >
+              {isDeleting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
+                  Deleting...
+                </>
+              ) : (
+                <>
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Delete Event
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

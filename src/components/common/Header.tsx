@@ -1,4 +1,3 @@
-import React from "react";
 import { Bell, Calendar, ChevronDown } from "lucide-react";
 import type { Notification } from "@/types/profile";
 import {

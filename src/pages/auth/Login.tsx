@@ -1,4 +1,3 @@
-import React from "react";
 import { Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";

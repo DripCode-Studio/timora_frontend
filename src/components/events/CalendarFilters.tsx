@@ -154,7 +154,6 @@ const CalendarFilters: React.FC<CalendarFiltersProps> = ({ events }) => {
                 </Button>
               </DialogTrigger>
               <AddCalendarForm />
-              {/* TODO: Handle form submission (figure how to add the form submission button to function) */}
             </form>
           </Dialog>
 

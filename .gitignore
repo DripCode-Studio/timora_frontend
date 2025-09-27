@@ -17,6 +17,8 @@ coverage
 /.cache
 /.output
 /.turbo
+prisma/
+data/
 *.local
 
 # Editor directories and files

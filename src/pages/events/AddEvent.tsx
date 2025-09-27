@@ -47,6 +47,7 @@ interface StudyPartner {
 interface ChecklistItem {
   id: string;
   text: string;
+  status: boolean;
 }
 
 function AddEvent() {
@@ -133,6 +134,7 @@ function AddEvent() {
       const newItem: ChecklistItem = {
         id: Date.now().toString(),
         text: newChecklistItem,
+        status: false,
       };
       setChecklist((prev) => [...prev, newItem]);
       setNewChecklistItem("");
@@ -141,6 +143,14 @@ function AddEvent() {
 
   const removeChecklistItem = (id: string) => {
     setChecklist((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const toggleChecklistItem = (id: string) => {
+    setChecklist((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, status: !item.status } : item
+      )
+    );
   };
 
   const toggleReminderOption = (option: string) => {
@@ -410,7 +420,7 @@ function AddEvent() {
                   placeholder="Add checklist item..."
                   value={newChecklistItem}
                   onChange={(e) => setNewChecklistItem(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && addChecklistItem()}
+                  onKeyDown={(e) => e.key === "Enter" && addChecklistItem()}
                   className="flex-1"
                 />
                 <Button
@@ -427,9 +437,25 @@ function AddEvent() {
                   {checklist.map((item) => (
                     <div
                       key={item.id}
-                      className="flex items-center justify-between p-2 bg-gray-50 rounded"
+                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
                     >
-                      <span className="text-sm">{item.text}</span>
+                      <label className="flex items-center gap-3 flex-1 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={item.status}
+                          onChange={() => toggleChecklistItem(item.id)}
+                          className="h-4 w-4 text-[#4CD964] border-gray-300 rounded focus:ring-[#4CD964]"
+                        />
+                        <span
+                          className={`text-sm ${
+                            item.status
+                              ? "line-through text-gray-500"
+                              : "text-gray-900"
+                          }`}
+                        >
+                          {item.text}
+                        </span>
+                      </label>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -460,7 +486,7 @@ function AddEvent() {
                   placeholder="Enter email address..."
                   value={newPartnerEmail}
                   onChange={(e) => setNewPartnerEmail(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && addStudyPartner()}
+                  onKeyDown={(e) => e.key === "Enter" && addStudyPartner()}
                   className="flex-1"
                 />
                 <Button

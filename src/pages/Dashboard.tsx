@@ -11,8 +11,10 @@ import Calendar from "@/components/ui/Calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { type Event, type Deadline, type CategoryData } from "@/types/events";
+import { type Deadline, type CategoryData } from "@/types/events";
 import AddEventButton from "@/components/events/AddEventButton";
+import sampleEvents from "@/data/sampleEvents";
+import type { CalendarEvent } from "@/components/events/FullCalendar";
 
 const EVENT_COLORS = {
   lecture: "#3B82F6",
@@ -58,35 +60,14 @@ function Dashboard() {
     },
   ];
 
-  const todayEvents: Event[] = [
-    {
-      id: "1",
-      title: "Computer Science Lecture",
-      type: "lecture",
-      time: "9:00 AM",
-      room: "Room A-102",
-      professor: "Prof. Johnson",
-    },
-    {
-      id: "2",
-      title: "Math Tutorial",
-      type: "study",
-      time: "11:00 AM",
-      room: "Room 204",
-    },
-    {
-      id: "3",
-      title: "Study Group (Physics)",
-      type: "study",
-      time: "2:00 PM",
-    },
-    {
-      id: "4",
-      title: "Gym",
-      type: "personal",
-      time: "5:00 PM",
-    },
-  ];
+  const todayEvents: CalendarEvent[] = sampleEvents.filter((event) => {
+    const today = new Date();
+    return (
+      event.startDate.getFullYear() === today.getFullYear() &&
+      event.startDate.getMonth() === today.getMonth() &&
+      event.startDate.getDate() === today.getDate()
+    );
+  });
 
   const dashboardData = [
     {
@@ -167,7 +148,7 @@ function Dashboard() {
                     <div className="text-sm text-gray-600 mt-1">
                       <div className="flex items-center gap-2">
                         <Clock3 className="h-4 w-4 text-gray-500" />
-                        <span>{event.time}</span>
+
                         {event.room && (
                           <>
                             <MapPin className="h-4 w-4 ml-2 text-gray-500" />

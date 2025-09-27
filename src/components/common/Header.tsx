@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useNavigate } from "react-router-dom";
 
 const notifications: Notification[] = [
   {
@@ -36,6 +37,12 @@ const notifications: Notification[] = [
 ];
 
 function Header() {
+  const navigate = useNavigate();
+
+  const handleMenuItemClick = (path: string) => {
+    navigate(path);
+  };
+
   return (
     <header className=" text-white p-4 flex justify-around md:justify-end bg-black">
       <div className="flex items-center justify-between md:justify-end w-full max-w-4xl">
@@ -106,16 +113,28 @@ function Header() {
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="hover:cursor-pointer hover:bg-gray-300">
+            <DropdownMenuItem
+              className="hover:cursor-pointer hover:bg-gray-300"
+              onClick={() => handleMenuItemClick("/app/profile")}
+            >
               Profile
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer">
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => handleMenuItemClick("/app/profile")}
+            >
               Billing
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer">
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => handleMenuItemClick("/app/profile")}
+            >
               Team
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer">
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={() => handleMenuItemClick("/app/profile")}
+            >
               Subscription
             </DropdownMenuItem>
           </DropdownMenuContent>

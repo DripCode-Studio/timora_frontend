@@ -39,29 +39,8 @@ function Dashboard() {
 
     return categories;
   };
-  const upcomingDeadlines: Deadline[] = [
-    {
-      id: "1",
-      title: "Physics Lab Report",
-      status: "due-today",
-      dueDate: "Due today, 11:59 PM",
-    },
-    {
-      id: "2",
-      title: "Calculus Assignment",
-      status: "due-soon",
-      dueDate: "Due in 3 days",
-    },
-    {
-      id: "3",
-      title: "Group Project Draft",
-      status: "upcoming",
-      dueDate: "Due in 5 days",
-    },
-  ];
-
   const todayEvents: CalendarEvent[] = sampleEvents.filter((event) => {
-    const today = new Date();
+    const today = new Date(); // Dynamic current date
     return (
       event.startDate.getFullYear() === today.getFullYear() &&
       event.startDate.getMonth() === today.getMonth() &&
@@ -69,16 +48,69 @@ function Dashboard() {
     );
   });
 
+  const getUpcomingDeadlines = (): Deadline[] => {
+    const today = new Date(); // Dynamic current date
+    const upcomingAssignments = sampleEvents
+      .filter(
+        (event) => event.type === "assignment" && event.startDate >= today
+      )
+      .sort((a, b) => a.startDate.getTime() - b.startDate.getTime())
+      .slice(0, 3); // Get the next 3 deadlines
+
+    return upcomingAssignments.map((event) => {
+      const daysDiff = Math.ceil(
+        (event.startDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+      );
+
+      let status: "due-today" | "due-soon" | "upcoming";
+      let dueDate: string;
+
+      if (daysDiff === 0) {
+        status = "due-today";
+        dueDate = `Due today, ${event.startTime}`;
+      } else if (daysDiff <= 3) {
+        status = "due-soon";
+        dueDate = `Due in ${daysDiff} day${daysDiff > 1 ? "s" : ""}`;
+      } else {
+        status = "upcoming";
+        dueDate = `Due in ${daysDiff} days`;
+      }
+
+      return {
+        id: event.id,
+        title: event.title,
+        status,
+        dueDate,
+      };
+    });
+  };
+
+  const upcomingDeadlines: Deadline[] = getUpcomingDeadlines();
+
+  const getThisWeekEvents = () => {
+    const today = new Date(); // Dynamic current date
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay()); // Start of this week (Sunday)
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6); // End of this week (Saturday)
+
+    return sampleEvents.filter((event) => {
+      return event.startDate >= startOfWeek && event.startDate <= endOfWeek;
+    });
+  };
+
+  const thisWeekEvents = getThisWeekEvents();
+
   const dashboardData = [
     {
       title: "Today's Schedule",
       icon: <CalendarIcon className="h-6 w-6" />,
-      number: 5,
+      number: todayEvents.length,
       description: "Events scheduled",
     },
     {
       title: "This Week",
-      number: 23,
+      number: thisWeekEvents.length,
       icon: <Clock3 className="h-6 w-6" />,
       description: "Total events",
     },
@@ -148,7 +180,9 @@ function Dashboard() {
                     <div className="text-sm text-gray-600 mt-1">
                       <div className="flex items-center gap-2">
                         <Clock3 className="h-4 w-4 text-gray-500" />
-
+                        <span>
+                          {event.startTime} - {event.endTime}
+                        </span>
                         {event.room && (
                           <>
                             <MapPin className="h-4 w-4 ml-2 text-gray-500" />

@@ -3,7 +3,6 @@ import {
   CalendarDays,
   Calendar,
   User,
-  Settings,
   LogOut,
 } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
@@ -29,11 +28,6 @@ const items = [
     title: "Events",
     url: "/app/events",
     icon: CalendarDays,
-  },
-  {
-    title: "Settings",
-    url: "/app/settings",
-    icon: Settings,
   },
   {
     title: "Profile",

@@ -29,6 +29,7 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+todo.txt
 
 # Environment files
 .env

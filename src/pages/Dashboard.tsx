@@ -11,7 +11,7 @@ import Calendar from "@/components/ui/Calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
-import { type Deadline, type CategoryData } from "@/types/events";
+import type {  Deadline,  CategoryData } from "@/types/events";
 import AddEventButton from "@/components/events/AddEventButton";
 import sampleEvents from "@/data/sampleEvents";
 import type { CalendarEvent } from "@/components/events/FullCalendar";
@@ -116,7 +116,7 @@ function Dashboard() {
     },
   ];
   return (
-    <section className="space-y-3">
+   <section className="space-y-3">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
           <h1 className=" text-2xl md:text-3xl font-bold">
@@ -290,7 +290,7 @@ function Dashboard() {
           </Card>
         </div>
       </div>
-    </section>
+      </section>
   );
 }
 

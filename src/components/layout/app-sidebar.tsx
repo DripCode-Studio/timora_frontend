@@ -16,6 +16,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import useAuthStore from "@/store/AuthStore";
 
 // Menu items.
 const items = [
@@ -38,6 +39,7 @@ const items = [
 
 export function AppSidebar() {
   const location = useLocation();
+  const { logout } = useAuthStore();
 
   return (
     <Sidebar className="hidden md:flex h-screen w-64 bg-white border-r shadow-sm flex-col">
@@ -88,7 +90,7 @@ export function AppSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <button className="w-full flex items-center justify-center gap-4 py-4 bg-red-600 hover:bg-red-700 transition-colors hover:cursor-pointer">
+      <button onClick={() => logout()} className="w-full flex items-center justify-center gap-4 py-4 bg-red-600 hover:bg-red-700 transition-colors hover:cursor-pointer">
         <LogOut className="w-6 h-6 flex-shrink-0 text-white" />
         <span className="text-[15px] text-white font-medium">Logout</span>
       </button>

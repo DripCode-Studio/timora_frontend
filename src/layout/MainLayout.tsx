@@ -1,11 +1,22 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import Footer from "@/components/common/Footer";
 import MobileMenuBar from "@/components/layout/MobileMenuBar";
 import Header from "@/components/common/Header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
+import useAuthStore from "@/store/AuthStore";
+
 
 function MainLayout() {
+ 
+  const { user, token } = useAuthStore();
+  const isAuthenticated = !!user && !!token;
+
+  if (!isAuthenticated){
+    
+    return <Navigate to="/login" />;
+  }
+
   return (
     <SidebarProvider>
       <AppSidebar />

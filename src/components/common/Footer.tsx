@@ -19,7 +19,7 @@ function Footer({ className }: FooterProps) {
     <footer className={cn("bg-black text-gray-300", className)}>
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">

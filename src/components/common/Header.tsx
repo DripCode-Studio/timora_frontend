@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/AuthStore";
 
 const notifications: Notification[] = [
   {
@@ -37,7 +38,7 @@ const notifications: Notification[] = [
 
 function Header() {
   const navigate = useNavigate();
-
+  const { user } = useAuthStore();
   const handleMenuItemClick = (path: string) => {
     navigate(path);
   };
@@ -100,13 +101,13 @@ function Header() {
           </DropdownMenuContent>
         </DropdownMenu>
         <Avatar className="hidden md:inline-flex ml-4">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage className="w-8 h-8" src={user?.avatarUrl} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
 
         <DropdownMenu>
           <DropdownMenuTrigger className="hidden md:flex items-center ml-2 hover:cursor-pointer">
-            <span className="ml-2">Carlos Nunez</span>
+            <span className="ml-2">{user?.name}</span>
             <ChevronDown className="ml-2" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>

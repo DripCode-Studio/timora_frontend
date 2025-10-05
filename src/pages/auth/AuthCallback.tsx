@@ -3,10 +3,13 @@ import { useSearchParams } from "react-router-dom";
 import { Calendar, Loader2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { jwtDecode } from "jwt-decode";
+import useAuthStore from "@/store/AuthStore";
+import type { UserInfos } from "@/types/profile";
 
 function AuthCallback() {
   const [params] = useSearchParams();
   const [error, setError] = useState<string | null>(null);
+  const { setUser, setToken } = useAuthStore();
 
   useEffect(() => {
     const status = params.get("status");
@@ -19,9 +22,11 @@ function AuthCallback() {
     }
     if (token) {
       try {
+      
         const user = jwtDecode(token);
-
-        localStorage.setItem("auth_token", JSON.stringify(user));
+        setToken(token);
+        setUser(user as UserInfos);
+        localStorage.setItem("auth_token",  JSON.stringify(token));
         window.location.href = "/app";
         return;
       } catch (e) {
@@ -31,7 +36,7 @@ function AuthCallback() {
     } else {
       setError("No token received. Please try again.");
     }
-  }, [params]);
+  }, [params, setToken, setUser]);  
 
   console.log("Error state:", error);
 

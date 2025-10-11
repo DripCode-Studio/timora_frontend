@@ -1,14 +1,34 @@
-export type EventType = "lecture" | "study" | "personal" | "assignment";
-
 export type DeadlineStatus = "due-today" | "due-soon" | "upcoming";
+
+export type EventType = "LECTURE" | "STUDY" | "ASSIGNMENT" | "EXAM" | "OTHER";
+
+export type Priority = "HIGH" | "MEDIUM" | "LOW";
+
+export type EventStatus =
+  | "SCHEDULED"
+  | "IN_PROGRESS"
+  | "COMPLETED"
+  | "CANCELLED";
 
 export interface Event {
   id: string;
   title: string;
   type: EventType;
-  time: string;
-  room?: string;
-  professor?: string;
+  description?: string;
+  location?: string;
+  startDate: Date;
+  endDate: Date;
+  startTime: Date;
+  endTime: Date;
+  isAllDay: boolean;
+  color: string;
+  priority: Priority;
+  status: EventStatus;
+  isRecurring: boolean;
+  recurrencePattern?: string;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Deadline {
@@ -34,13 +54,13 @@ export const EVENT_COLORS = {
 
 export const getEventColor = (type: EventType): string => {
   switch (type) {
-    case "lecture":
+    case "LECTURE":
       return "bg-blue-500";
-    case "study":
+    case "STUDY":
       return "bg-green-500";
-    case "personal":
+    case "EXAM":
       return "bg-yellow-500";
-    case "assignment":
+    case "ASSIGNMENT":
       return "bg-red-500";
     default:
       return "bg-gray-500";

@@ -21,9 +21,16 @@ import {
   Shield,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuthStore from "@/store/AuthStore";
 
 function Home() {
+  const { user, token } = useAuthStore();
+  const isAuthenticated = !!user && !!token;
+  const navigate = useNavigate();
+  const handleGetStartedClick = () => {
+    navigate(isAuthenticated ? "/app" : "/login");
+  };
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Navbar */}
@@ -54,13 +61,12 @@ function Home() {
             </a>
           </nav>
           <div className="flex items-center gap-2">
-            <Button
-              asChild={true}
-              size="sm"
-              className="hidden sm:inline-flex hover:cursor-pointer"
+            <button
+              onClick={handleGetStartedClick}
+              className="sm:inline-flex hover:cursor-pointer px-4 bg-black text-white text-sm font-semibold rounded-md h-9 items-center justify-center transition"
             >
-              <Link to="/login">Get Started</Link>
-            </Button>
+              {isAuthenticated ? "Go to Dashboard" : "Get Started"}
+            </button>
           </div>
         </div>
       </header>
@@ -69,46 +75,51 @@ function Home() {
       <section id="home" className="relative overflow-hidden">
         {/* Background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
-        
+
         <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 py-20 md:grid-cols-2 md:gap-12 md:px-6 md:py-32">
           <div className="text-center md:text-left">
             <div className="inline-flex items-center rounded-full border bg-background/80 px-3 py-1 text-xs font-medium backdrop-blur-sm">
               <Zap className="mr-1 h-3 w-3 text-primary" />
               New: AI-powered study scheduling
             </div>
-            
+
             <h1 className="mt-6 text-balance text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
               Your Academic
               <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                {" "}Success
+                {" "}
+                Success
               </span>{" "}
               Starts Here
             </h1>
-            
+
             <p className="mt-6 text-lg leading-8 text-muted-foreground">
-              Timora transforms how students manage their academic life. Seamlessly integrate 
-              schedules, track assignments, and boost productivity with our intelligent calendar system.
+              Timora transforms how students manage their academic life.
+              Seamlessly integrate schedules, track assignments, and boost
+              productivity with our intelligent calendar system.
             </p>
-            
+
             <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center md:justify-start">
-              <Button asChild size="lg" className="group h-12 px-8 text-base hover:cursor-pointer">
-                <Link to="/login">
-                  Get Started Free
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="h-12 px-8 text-base hover:cursor-pointer"
+              <button
+                onClick={handleGetStartedClick}
+                className="group h-12 text-base sm:inline-flex hover:cursor-pointer px-4 bg-black text-white font-semibold rounded-md  items-center justify-center transition"
               >
-                <Link to="/events">
-                  <Play className="mr-2 h-4 w-4" />
-                  View Demo
-                </Link>
-              </Button>
+                {isAuthenticated ? "Go to Dashboard" : "Get Started Free"}
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </button>
+
+              {!isAuthenticated && (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="h-12 px-8 text-base hover:cursor-pointer"
+                >
+                  <Link to="/events">
+                    <Play className="mr-2 h-4 w-4" />
+                    View Demo
+                  </Link>
+                </Button>
+              )}
             </div>
 
             <div className="mt-8 flex items-center justify-center gap-8 text-sm text-muted-foreground md:justify-start">
@@ -132,20 +143,22 @@ function Home() {
             {/* Floating cards effect */}
             <div className="absolute -top-4 -left-4 h-20 w-20 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 opacity-20 blur-xl" />
             <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-2xl bg-gradient-to-r from-purple-500 to-pink-500 opacity-20 blur-xl" />
-            
+
             <div className="relative space-y-4">
               {/* Main schedule card */}
               <div className="rounded-2xl border bg-card/80 p-6 shadow-2xl backdrop-blur-sm">
                 <div className="mb-6 flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-semibold">Today's Schedule</h3>
-                    <p className="text-sm text-muted-foreground">Friday, Oct 3</p>
+                    <p className="text-sm text-muted-foreground">
+                      Friday, Oct 3
+                    </p>
                   </div>
                   <div className="rounded-lg bg-primary/10 p-2">
                     <Calendar className="h-5 w-5 text-primary" />
                   </div>
                 </div>
-                
+
                 <div className="space-y-4">
                   <ScheduleItem
                     title="Advanced Mathematics"
@@ -175,7 +188,7 @@ function Home() {
                   <p className="mt-1 text-2xl font-bold">8/10</p>
                   <p className="text-xs text-muted-foreground">This week</p>
                 </div>
-                
+
                 <div className="rounded-xl border bg-card/60 p-4 backdrop-blur-sm">
                   <div className="flex items-center gap-2">
                     <BookOpen className="h-4 w-4 text-blue-500" />
@@ -191,22 +204,26 @@ function Home() {
       </section>
 
       {/* Features */}
-      <section id="features" className="border-b bg-gradient-to-b from-muted/30 to-background">
+      <section
+        id="features"
+        className="border-b bg-gradient-to-b from-muted/30 to-background"
+      >
         <div className="mx-auto max-w-7xl px-4 py-20 md:px-6 md:py-24">
           <div className="text-center">
             <div className="inline-flex items-center rounded-full border bg-background px-4 py-2 text-sm font-medium">
               <Star className="mr-2 h-4 w-4 text-primary" />
               Why Choose Timora
             </div>
-            
+
             <h2 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
               Everything you need for
               <span className="text-primary"> academic success</span>
             </h2>
-            
+
             <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground">
-              Powerful, student-focused features that transform how you manage your academic life. 
-              From smart scheduling to performance tracking, we've got you covered.
+              Powerful, student-focused features that transform how you manage
+              your academic life. From smart scheduling to performance tracking,
+              we've got you covered.
             </p>
           </div>
 
@@ -255,15 +272,15 @@ function Home() {
               <Users className="mr-2 h-4 w-4 text-primary" />
               25,000+ Happy Students
             </div>
-            
+
             <h2 className="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
               Loved by students at
               <span className="text-primary"> top universities</span>
             </h2>
-            
+
             <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground">
-              See how Timora is helping students across the globe achieve their academic goals 
-              and maintain better work-life balance.
+              See how Timora is helping students across the globe achieve their
+              academic goals and maintain better work-life balance.
             </p>
           </div>
 
@@ -284,10 +301,12 @@ function Home() {
               quote="The academic focus features are exactly what pre-med students need. Semester planning and goal tracking keep me motivated and on track for med school."
             />
           </div>
-          
+
           {/* University logos */}
           <div className="mt-16 text-center">
-            <p className="text-sm font-medium text-muted-foreground mb-8">Trusted by students at</p>
+            <p className="text-sm font-medium text-muted-foreground mb-8">
+              Trusted by students at
+            </p>
             <div className="flex items-center justify-center gap-8 opacity-60">
               <div className="text-2xl font-bold">MIT</div>
               <div className="text-2xl font-bold">Stanford</div>
@@ -306,46 +325,47 @@ function Home() {
           <div className="absolute top-0 left-1/4 h-72 w-72 rounded-full bg-purple-500/20 blur-3xl" />
           <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
         </div>
-        
+
         <div className="relative mx-auto max-w-6xl px-4 text-center md:px-6">
           <div className="mx-auto max-w-3xl">
             <h2 className="text-5xl font-bold tracking-tight sm:text-6xl">
               Ready to ace your
               <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                {" "}academic life?
+                {" "}
+                academic life?
               </span>
             </h2>
-            
+
             <p className="mx-auto mt-6 text-xl leading-8 text-white/80">
-              Join over 25,000 students who've transformed their productivity and academic success with Timora. 
-              Start your journey to better grades and less stress today.
+              Join over 25,000 students who've transformed their productivity
+              and academic success with Timora. Start your journey to better
+              grades and less stress today.
             </p>
-            
+
             <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button
-                asChild
-                size="lg"
-                className="group h-14 px-10 text-lg font-semibold bg-white text-slate-900 hover:bg-gray-100 hover:cursor-pointer"
+              <button
+                onClick={handleGetStartedClick}
+                className="group h-14 px-10 text-lg font-semibold bg-white text-slate-900 hover:bg-gray-100 hover:cursor-pointer group sm:inline-flex rounded-md  items-center justify-center transition"
               >
-                <Link to="/login">
-                  Get Started Free
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Link>
-              </Button>
-              
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="h-14 px-10 text-lg border-white/20 bg-white/10 text-white hover:bg-white/20 hover:cursor-pointer backdrop-blur-sm"
-              >
-                <Link to="/events">
-                  <Calendar className="mr-2 h-5 w-5" />
-                  Try Demo
-                </Link>
-              </Button>
+                {isAuthenticated ? "Go to Dashboard" : "Get Started Free"}
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </button>
+
+              {!isAuthenticated && (
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="h-14 px-10 text-lg border-white/20 bg-white/10 text-white hover:bg-white/20 hover:cursor-pointer backdrop-blur-sm"
+                >
+                  <Link to="/events">
+                    <Calendar className="mr-2 h-5 w-5" />
+                    Try Demo
+                  </Link>
+                </Button>
+              )}
             </div>
-            
+
             <div className="mt-8 flex items-center justify-center gap-8 text-sm text-white/60">
               <div className="flex items-center gap-2">
                 <CheckCircle className="h-4 w-4 text-green-400" />
@@ -475,27 +495,47 @@ function Home() {
   );
 }
 
-function ScheduleItem({ title, time, status }: { title: string; time: string; status?: string }) {
+function ScheduleItem({
+  title,
+  time,
+  status,
+}: {
+  title: string;
+  time: string;
+  status?: string;
+}) {
   const getStatusColor = (status?: string) => {
     switch (status) {
-      case 'upcoming': return 'bg-blue-500';
-      case 'scheduled': return 'bg-green-500';
-      case 'urgent': return 'bg-red-500';
-      default: return 'bg-foreground/70';
+      case "upcoming":
+        return "bg-blue-500";
+      case "scheduled":
+        return "bg-green-500";
+      case "urgent":
+        return "bg-red-500";
+      default:
+        return "bg-foreground/70";
     }
   };
 
   const getStatusBg = (status?: string) => {
     switch (status) {
-      case 'upcoming': return 'bg-blue-50 border-blue-200';
-      case 'scheduled': return 'bg-green-50 border-green-200';
-      case 'urgent': return 'bg-red-50 border-red-200';
-      default: return 'bg-muted/30';
+      case "upcoming":
+        return "bg-blue-50 border-blue-200";
+      case "scheduled":
+        return "bg-green-50 border-green-200";
+      case "urgent":
+        return "bg-red-50 border-red-200";
+      default:
+        return "bg-muted/30";
     }
   };
 
   return (
-    <div className={`flex items-center justify-between rounded-xl border p-4 transition-all hover:shadow-sm ${getStatusBg(status)}`}>
+    <div
+      className={`flex items-center justify-between rounded-xl border p-4 transition-all hover:shadow-sm ${getStatusBg(
+        status
+      )}`}
+    >
       <div className="flex items-center gap-3">
         <span className={`h-3 w-3 rounded-full ${getStatusColor(status)}`} />
         <div>
@@ -503,7 +543,11 @@ function ScheduleItem({ title, time, status }: { title: string; time: string; st
           <p className="mt-1 text-xs text-muted-foreground">{time}</p>
         </div>
       </div>
-      <Button variant="ghost" size="sm" className="h-8 px-3 text-xs font-medium">
+      <Button
+        variant="ghost"
+        size="sm"
+        className="h-8 px-3 text-xs font-medium"
+      >
         View
       </Button>
     </div>
@@ -528,15 +572,17 @@ function FeatureCard({
           {highlight}
         </div>
       )}
-      
+
       <div className="mb-4">
         <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 text-primary transition-colors group-hover:from-primary/20 group-hover:to-secondary/20">
           {icon}
         </div>
       </div>
-      
+
       <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="mt-2 text-muted-foreground leading-relaxed">{description}</p>
+      <p className="mt-2 text-muted-foreground leading-relaxed">
+        {description}
+      </p>
     </div>
   );
 }
